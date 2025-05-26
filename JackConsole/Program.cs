@@ -8,7 +8,7 @@ namespace JackConsole
         {
             ImmutableList<string> poem = ImmutableList<string>.Empty;
 
-            
+
             var part1 = new Part1();
             var part2 = new Part2();
             var part3 = new Part3();
@@ -18,7 +18,7 @@ namespace JackConsole
             var part7 = new Part7();
             var part8 = new Part8();
             var part9 = new Part9();
-            Part[] parts = { part1 , part2, part3, part4, part5, part6, part7, part8, part9 };
+            Part[] parts = { part1, part2, part3, part4, part5, part6, part7, part8, part9 };
 
 
 
@@ -33,7 +33,7 @@ namespace JackConsole
             ((Part8)parts[7]).AddPart(((Part7)parts[6]).Poem);
             ((Part9)parts[8]).AddPart(((Part8)parts[7]).Poem);
 
-            
+
             foreach (var part in parts)
             {
                 part.Show();
