@@ -58,7 +58,6 @@ namespace CustomerConsole
         }
         public bool Remove(int id)
         {
-            //id--;//Becouse we show index begining with 1, not 0
             foreach (Item item in items)
             {
                 if (item.Id == id)

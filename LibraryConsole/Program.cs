@@ -1,16 +1,18 @@
 ﻿using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace LibraryConsole
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Library library = new Library();
             while (true)
             {
                 Console.WriteLine("1 - добавить книгу; 2 - вывести список непрочитанного; 3 - выйти");
                 var key = Console.ReadKey(true);
+                List<CancellationTokenSource> ctss = new List<CancellationTokenSource>();
                 switch (key.Key)
                 {
                     case ConsoleKey.NumPad1:
@@ -18,9 +20,11 @@ namespace LibraryConsole
                         {
                             Console.WriteLine("Введите название книги:");
                             string newbook = Console.ReadLine();
-                            if (library.AddBook(newbook))
+                            (bool, CancellationTokenSource) complite = library.AddBook(newbook);
+                            if (complite.Item1)
                             {
                                 Console.WriteLine(newbook + " добавлена.");
+                                ctss.Add(complite.Item2);
                             }
                             else
                             {
@@ -49,6 +53,11 @@ namespace LibraryConsole
                     case ConsoleKey.D3:
                         {
                             Console.WriteLine("Program close success.");
+                            foreach (var cts in ctss)
+                            {
+                                //Closing threads
+                                await cts.CancelAsync();
+                            }
                             return;
                         }
                         break;
@@ -56,7 +65,6 @@ namespace LibraryConsole
                         break;
                 }
             }
-            Console.WriteLine("Hello, World!");
         }
     }
 }
